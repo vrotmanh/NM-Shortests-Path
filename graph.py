@@ -31,3 +31,39 @@ def create_graph(n,p):
 			if random.random() < p:
 				graph.add_edge(i,j)
 	return graph
+
+def shortest_path(G, i, j):
+	visited = [i]
+	queue = []
+	root = i
+	paths = {root: 0}
+	queue.insert(0, root)
+	while(len(queue)>0):
+		current = queue.pop()
+		if(current == j):
+			return paths[current]
+
+		neighbors = g.get_neighbors(current)
+		for neighbor in neighbors:
+			if neighbor in visited:
+				continue
+			if neighbor not in queue:
+				queue.insert(0, neighbor)
+				if (neighbor not in paths) or (paths[neighbor]>paths[current]+1):
+					paths[neighbor] = paths[current]+1
+
+		visited.append(current)
+	return float("inf")
+
+
+# avg = 0
+# for i in range(10000):
+# 	g = create_graph(20,0.2)
+# 	avg+=g.edges_count()
+# print(avg/10000)
+
+g = create_graph(5,0.5)
+g.print_graph()
+print(shortest_path(g, 0, 3))
+
+
